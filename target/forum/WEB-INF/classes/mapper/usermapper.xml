@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.zzy.forum.dao.UserDao">
+
+    <resultMap type="User" id="userResult">
+        <id column="id" property="id"/>
+        <result column="username" property="username"/>
+        <result column="password" property="password"/>
+        <result column="avatar" property="avatar"/>
+        <result column="email" property="email"/>
+        <result column="tel" property="tel"/>
+        <result column="status" property="status"/>
+    </resultMap>
+
+    <!--用户注册-->
+    <insert id="register" parameterType="User">
+        insert into user (username,password) values (#{username},#{password})
+    </insert>
+
+    <!--检查用户是否存在-->
+    <select id="checkUserByUsername" parameterType="String" resultType="int">
+        select count(*) from user where username = #{username}
+    </select>
+
+    <!--用户登录-->
+    <select id="login" parameterType="User" resultType="int">
+        select count(*) from user where username = #{username} and password = #{password}
+    </select>
+
+    <!--获得用户信息-->
+    <select id="getUserByUsername" parameterType="String" resultMap="userResult">
+        select * from user where username = #{username}
+    </select>
+
+</mapper>

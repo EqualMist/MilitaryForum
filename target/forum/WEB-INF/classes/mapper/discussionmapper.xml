@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.zzy.forum.dao.DiscussionDao">
+
+    <resultMap type="Discussion" id="discussionResult">
+        <id column="id" property="id"/>
+        <result column="title" property="title"/>
+        <result column="body" property="body"/>
+        <result column="user_id" property="user_id"/>
+        <result column="username" property="username"/>
+        <result column="last_user_id" property="last_user_id"/>
+        <result column="created_at" property="created_at"/>
+        <result column="updated_at" property="updated_at"/>
+    </resultMap>
+
+    <!--查询所有帖子-->
+    <select id="showAll" resultMap="discussionResult">
+        select discussion.id,title,body,user_id,username,last_user_id,created_at,updated_at from discussion,user where discussion.user_id = user.id
+    </select>
+
+    <!--通过id查询帖子-->
+    <select id="show" parameterType="int" resultMap="discussionResult">
+        select discussion.id,title,body,user_id,username,last_user_id,created_at,updated_at from discussion,user where discussion.id = #{id} and discussion.user_id = user.id
+    </select>
+
+</mapper>
