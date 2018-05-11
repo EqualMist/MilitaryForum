@@ -6,32 +6,98 @@
 
     <resultMap type="User" id="userResult">
         <id column="id" property="id"/>
+        <result column="uuid" property="uuid"/>
         <result column="username" property="username"/>
         <result column="password" property="password"/>
         <result column="avatar" property="avatar"/>
         <result column="email" property="email"/>
         <result column="tel" property="tel"/>
         <result column="status" property="status"/>
+        <result column="activation" property="activation"/>
+        <result column="renown" property="renown"/>
+        <result column="lastsign" property="lastsign"/>
+        <result column="counts" property="counts"/>
+        <result column="qq" property="qq"/>
+        <result column="info" property="info"/>
     </resultMap>
 
     <!--用户注册-->
     <insert id="register" parameterType="User">
-        insert into user (username,password) values (#{username},#{password})
+        insert into user (uuid,username,password,email,avatar,status,activation,renown,lastsign) values (#{uuid},#{username},#{password},#{email},#{avatar},#{status},#{activation},#{renown},'2018-05-01')
     </insert>
 
-    <!--检查用户是否存在-->
+    <!--检查用户是否存在(用户名)-->
     <select id="checkUserByUsername" parameterType="String" resultType="int">
         select count(*) from user where username = #{username}
     </select>
 
-    <!--用户登录-->
-    <select id="login" parameterType="User" resultType="int">
-        select count(*) from user where username = #{username} and password = #{password}
+    <!--检查用户是否存在(邮箱)-->
+    <select id="checkUserByEmail" parameterType="String" resultType="int">
+        select count(*) from user where email = #{email}
     </select>
 
-    <!--获得用户信息-->
+    <!--用户登录-->
+    <select id="login" parameterType="User" resultType="int">
+        select count(*) from user where password = #{password} and email = #{email}
+    </select>
+
+    <!--检查用户是否激活(邮箱)-->
+    <select id="checkUserByActivation" parameterType="String" resultType="int">
+        select activation from user where email = #{email}
+    </select>
+
+    <!--获得用户信息(用户名)-->
     <select id="getUserByUsername" parameterType="String" resultMap="userResult">
         select * from user where username = #{username}
     </select>
 
+    <!--获得用户信息(邮箱)-->
+    <select id="getUserByEmail" parameterType="String" resultMap="userResult">
+        select * from user where email = #{email}
+    </select>
+
+    <!--获得用户信息(id)-->
+    <select id="getUserById" parameterType="int" resultMap="userResult">
+        select * from user where id = #{id}
+    </select>
+
+    <!--核对用户名及激活码-->
+    <update id = "activateMailBox" parameterType="String">
+        update user set activation = 1 where  email = #{0} and uuid = #{1}
+    </update>
+
+    <!--修改用户信息-->
+    <update id = "modifyUser" parameterType="String">
+        update user set tel = #{0},qq=#{1},info=#{2} where email = #{3}
+    </update>
+
+    <!--上传用户头像-->
+    <update id = "updateAvatar" parameterType="String">
+        update user set avatar = #{1} where  email = #{0}
+    </update>
+
+    <!--获得用户签到天数-->
+    <select id="searchsign" parameterType="String" resultMap="userResult">
+        select counts from user where email = #{email}
+    </select>
+
+    <!--不连续签到-->
+    <update id="signtwo" parameterType="User">
+        update user set lastsign = #{1},counts = counts+1,renown = renown+1 where email = #{0}
+    </update>
+
+    <!--连续签到-->
+    <update id="signone" parameterType="User">
+        update user set lastsign = #{1},counts = 1,renown = renown+1 where email = #{0}
+    </update>
+
+    <!--扣除用户声望10点-->
+    <update id="deductRenown" parameterType="User">
+        update user set renown = renown-10 where id = #{0}
+    </update>
+
+    <!--修改用户密码-->
+    <update id="changePassword" parameterType="User">
+        update user set password = #{password} where email = #{email}
+    </update>
 </mapper>

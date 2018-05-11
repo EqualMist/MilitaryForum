@@ -1,0 +1,6 @@
+﻿[
+	{ id: "user", text: "信息管理"},
+	{ id: "addUser", pid: "user", text: "产品信息", iconCls: "icon-add", url: "productinfo/productinfolist.html" },
+	{ id: "addUser2", pid: "user", text: "产品报价信息", iconCls: "icon-edit", url: "priceinfo/priceinfolist.html" },
+
+]

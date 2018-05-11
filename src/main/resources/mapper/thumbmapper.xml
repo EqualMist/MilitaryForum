@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.zzy.forum.dao.ThumbDao">
+
+    <resultMap type="Thumb" id="thumbResult">
+        <id column="id" property="id"/>
+        <result column="type" property="type"/>
+        <result column="target_id" property="target_id"/>
+        <result column="user_id" property="user_id"/>
+    </resultMap>
+
+    <!--查询帖子点赞-->
+    <select id="findThumbDiscussion" parameterType="int" resultMap="thumbResult">
+        select * from thumb where `user_id` = #{0} and target_id=#{1} and type='discussion'
+    </select>
+
+    <!--查询回帖点赞-->
+    <select id="findThumbReply" parameterType="int" resultMap="thumbResult">
+       select * from thumb where `user_id` = #{0} and target_id=#{1} and type='reply'
+    </select>
+
+    <!--添加帖子点赞-->
+    <insert id="addThumbDiscussion" parameterType="Thumb">
+        insert into thumb (target_id, user_id,type) values (#{target_id},#{user_id},'discussion')
+    </insert>
+
+    <!--添加回帖点赞-->
+    <insert id="addThumbReply" parameterType="Thumb">
+        insert into thumb (target_id, user_id,type) values (#{target_id},#{user_id},'reply')
+    </insert>
+
+    <!--取消帖子点赞-->
+    <delete id="cancelThumbDiscussion" parameterType="Thumb">
+        delete from thumb  where user_id = #{user_id} and target_id = #{target_id} and type='discussion'
+    </delete>
+
+    <!--取消回帖点赞-->
+    <delete id="cancelThumbReply" parameterType="Thumb">
+        delete from thumb  where user_id = #{user_id} and target_id = #{target_id} and type='reply'
+    </delete>
+</mapper>

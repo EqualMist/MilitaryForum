@@ -10,19 +10,104 @@
         <result column="body" property="body"/>
         <result column="user_id" property="user_id"/>
         <result column="username" property="username"/>
+        <result column="avatar" property="avatar"/>
         <result column="last_user_id" property="last_user_id"/>
         <result column="created_at" property="created_at"/>
         <result column="updated_at" property="updated_at"/>
+        <result column="view_num" property="view_num"/>
+        <result column="thumb_num" property="thumb_num"/>
+        <result column="reply_num" property="reply_num"/>
+        <result column="renown" property="renown"/>
+        <result column="blacklist" property="blacklist"/>
     </resultMap>
 
     <!--查询所有帖子-->
     <select id="showAll" resultMap="discussionResult">
-        select discussion.id,title,body,user_id,username,last_user_id,created_at,updated_at from discussion,user where discussion.user_id = user.id
+        select discussion.id,title,body,user_id,user.username,user.avatar,last_user_id,created_at,updated_at,thumb_num,view_num,reply_num,renown,blacklist from discussion,user where discussion.user_id = user.id and blacklist = 0
     </select>
 
     <!--通过id查询帖子-->
     <select id="show" parameterType="int" resultMap="discussionResult">
-        select discussion.id,title,body,user_id,username,last_user_id,created_at,updated_at from discussion,user where discussion.id = #{id} and discussion.user_id = user.id
+        select discussion.id,title,body,user_id,user.username,user.avatar,last_user_id,created_at,updated_at,thumb_num,view_num,reply_num,renown from discussion,user where discussion.id = #{id} and discussion.user_id = user.id and blacklist = 0
     </select>
 
+    <!--发布帖子-->
+    <insert id="addDiscussion" parameterType="Discussion">
+        insert into discussion (title,body,user_id,username,created_at,updated_at,view_num,thumb_num,reply_num,blacklist) values (#{title},#{body},#{user_id},#{username},#{created_at},#{updated_at},#{view_num},#{thumb_num},#{reply_num},#{blacklist})
+    </insert>
+
+    <!--浏览量加1-->
+    <update id="addViewNum" parameterType="int">
+        update discussion SET discussion.view_num = discussion.view_num+1 where discussion.id = #{id};
+    </update>
+
+    <!--回帖数加1-->
+    <update id="addReplyNum" parameterType="int">
+        update discussion SET discussion.reply_num = discussion.reply_num+1 where discussion.id = #{id};
+    </update>
+
+    <!--根据帖子id获取用户id-->
+    <select id="getUseridByDiscussionid" parameterType="int" resultMap="discussionResult">
+        select * from discussion where id = #{0}
+    </select>
+
+    <!--更改被举报帖子blacklist字段-->
+    <update id="changeDiscussionStatus" parameterType="int">
+        update discussion SET discussion.blacklist = 1 where discussion.id = #{id};
+    </update>
+
+    <!--通过id查询帖子-->
+    <select id="showReport" parameterType="int" resultMap="discussionResult">
+        select discussion.id,title,body,user_id,user.username,user.avatar,last_user_id,created_at,updated_at,thumb_num,view_num,reply_num,renown from discussion,user where discussion.id = #{id} and discussion.user_id = user.id
+    </select>
+
+    <!--通过id查询帖子标题-->
+    <select id="getTitle" parameterType="int" resultMap="discussionResult">
+        select * from discussion where discussion.id = #{0}
+    </select>
+
+    <!--增加对应帖子点赞数1-->
+    <update id="addDiscussionThumbnum" parameterType="int">
+        update discussion SET discussion.thumb_num = discussion.thumb_num+1 where discussion.id = #{0};
+    </update>
+
+    <!--减少对应帖子点赞数1-->
+    <update id="deleteDiscussionThumbnum" parameterType="int">
+        update discussion SET discussion.thumb_num = discussion.thumb_num-1 where discussion.id = #{0};
+    </update>
+
+    <!--通过id获取帖子-->
+    <select id="getDiscussionByid" parameterType="int" resultMap="discussionResult">
+        select * from discussion where discussion.id = #{0}
+    </select>
+
+    <!--根据用户id获取该用户的帖子-->
+    <select id="showAllByuserid" parameterType="int" resultMap="discussionResult">
+        select * from discussion where discussion.user_id = #{0}
+    </select>
+
+    <!--减少对应帖子点赞数1-->
+    <delete id="deleteDiscussion" parameterType="int">
+        delete from discussion where discussion.id = #{0};
+    </delete>
+
+    <!--根据发帖人id获取发帖数-->
+    <select id="getCountDiscussion" parameterType="int" resultType="java.lang.Integer">
+        select count(*) from discussion where discussion.user_id = #{0}
+    </select>
+
+    <!--查询热门帖子-->
+    <select id="showHot" resultMap="discussionResult">
+        select discussion.id,title,body,user_id,user.username,user.avatar,last_user_id,created_at,updated_at,thumb_num,view_num,reply_num,renown,blacklist from discussion,user where discussion.user_id = user.id and blacklist = 0 order by discussion.reply_num desc limit 3
+    </select>
+
+    <!--查询精华帖子-->
+    <select id="showGood" resultMap="discussionResult">
+        select discussion.id,title,body,user_id,user.username,user.avatar,last_user_id,created_at,updated_at,thumb_num,view_num,reply_num,renown,blacklist from discussion,user where discussion.user_id = user.id and blacklist = 0 order by discussion.thumb_num desc limit 3
+    </select>
+
+    <!--根据输入内容查询帖子-->
+    <select id="searchDiscussions" parameterType="java.lang.String" resultMap="discussionResult">
+        select discussion.id,title,body,user_id,user.username,user.avatar,last_user_id,created_at,updated_at,thumb_num,view_num,reply_num,renown,blacklist from discussion,user where discussion.user_id = user.id and blacklist = 0 and title like CONCAT('%',#{0},'%')
+    </select>
 </mapper>

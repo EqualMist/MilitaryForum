@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.zzy.forum.dao.NotificationDao">
+
+    <resultMap type="Notification" id="notificationResult">
+        <id column="id" property="id"/>
+        <result column="content" property="content"/>
+        <result column="from_user" property="from_user"/>
+        <result column="to_user" property="to_user"/>
+        <result column="level" property="level"/>
+        <result column="isread" property="isRead"/>
+    </resultMap>
+
+    <!--查询该用户所有通知-->
+    <select id="findNotification" resultMap="notificationResult">
+        select * from notification where to_user=#{0} or `level`=0
+    </select>
+
+    <!--查询该用户未读通知-->
+    <select id="findIsRead" resultMap="notificationResult">
+        select * from notification where (to_user=#{0} or `level`=0) and isread=0
+    </select>
+
+    <!--查询该用户未读通知数量-->
+    <select id="countIsNotRead" resultType="java.lang.Integer">
+        select count(id) from notification where (to_user=#{0} or `level`=0) and isread=0
+    </select>
+
+    <!--发布全站通知-->
+    <insert id="sendToAll" parameterType="Notification">
+        insert into notification (content, from_user, level, isread) values (#{content},#{from_user},#{level},#{isRead})
+    </insert>
+
+    <!--发布收藏已更新-->
+    <insert id="sendToUser" parameterType="Notification">
+        insert into notification (content, from_user, to_user, level, isread) values (#{content},#{from_user},#{to_user},#{level},#{isRead})
+    </insert>
+
+    <!--更新通知为已读-->
+    <update id="changeIsRead" parameterType="int">
+        update notification SET isread=1 where id = #{id};
+    </update>
+
+    <!--删除通知-->
+    <update id="deleteNotification" parameterType="int">
+        delete from notification  where id = #{id};
+    </update>
+
+
+
+
+</mapper>

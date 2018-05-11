@@ -1,0 +1,42 @@
+.discussion-background {
+    margin: 5px 0;
+    border-radius: 10px;
+    background: #dfdfdf;
+    width: 100%;
+    height: 120px;
+}
+
+.discussion-btn {
+    width: 33.3%;
+    height:60px;
+    font-size: 24px;
+}
+
+.discussion-common {
+    height: 120px;
+}
+
+.discussion-replynum {
+    margin-top: 40px;
+    width: 120px;
+}
+
+.discussion-avatar {
+    margin-top: 10px;
+    width: 100px;
+    height: 100px;
+}
+
+.discussion-title {
+    margin-top: 40px;
+    margin-left: 20px;
+}
+
+.discussion-thumbnum {
+    margin-right: 20px;
+}
+
+.discussion-username {
+    margin-top: 60px;
+    margin-right: 20px;
+}

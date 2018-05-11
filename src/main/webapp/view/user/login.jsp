@@ -1,10 +1,4 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: KelipuTe
-  Date: 2017/9/7
-  Time: 11:02
-  To change this template use File | Settings | File Templates.
---%>
+
 <%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
 <%
     String path = request.getContextPath();
@@ -15,25 +9,42 @@
 <head>
     <base href="<%=basePath%>">
     <meta charset="UTF-8">
-    <title>login</title>
+    <title>登录</title>
     <%@ include file="/view/reUse/head.jsp" %>
+    <link rel="stylesheet" href="/static/css/user.css">
 </head>
-<body>
+<body background="/static/image/background/Wisconsin1.jpg" style="background-size:100% 100%;height:100%;">
 <%--网页顶部--%>
 <%@ include file="/view/reUse/header.jsp" %>
 <%--网页主体--%>
-<div class="col-md-6 col-md-offset-3">
-    <form action="" method="post" id="form_login" >
+<div class="row clearfix" style="margin-top: 60px;">
+<div class="col-md-offset-4 col-md-4">
+    <form class="form-horizontal" action="" method="post" id="form_login">
+        <span class="heading">欢迎登录</span>
         <div class="form-group">
-            <label for="username">用户名：</label>
-            <input type="text" id="username" name="username" class="form-control"/>
+            <input type="text" class="form-control" id="log_username" title="以字母开头，长度不超过20，包含字符，数字，下划线" placeholder="邮 箱"/>
+            <label id="log_message1" style="visibility: hidden;color:red">邮箱不符合条件</label>
+        </div>
+
+        <div class="form-group help">
+            <input type="password" class="form-control" id="log_password" title="长度不超过20，包含数字，字母" placeholder="密 码"/>
+            <label id="log_message2" style="visibility: hidden;color:red">密码不符合条件</label>
+        </div>
+
+        <div class="form-group help">
+            <input type="text" class = "form-control" id="log_vertification" placeholder="验证码" />
+            <br>
+            <canvas id="mycanvas" width='150' height='40' style = "cursor: pointer;float: left">
+                您的浏览器不支持canvas，请换个浏览器试试~
+            </canvas>
+            <label id="log_message3" style="visibility: hidden;float: left;color:red">验证码错误,请重新输入</label>
         </div>
         <div class="form-group">
-            <label for="password">密码：</label>
-            <input type="password" id="password" name="password" class="form-control"/>
+            <span class="text">没有账号？<a href="/view/user/register.jsp">注册</a></span>
+            <button type="button" class="btn btn-default" id="log_login" >用  户  登  录</button>
         </div>
     </form>
-    <div><button id="btn_login" class="btn btn-primary form-control">登录</button></div>
+</div>
 </div>
 </body>
 <script type="text/javascript" src="/static/js/user/login.js"></script>

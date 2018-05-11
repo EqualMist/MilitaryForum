@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.zzy.forum.dao.ReportDao">
+
+    <resultMap type="Report" id="reportResult">
+        <id column="id" property="id"/>
+        <result column="type" property="type"/>
+        <result column="target_id" property="target_id"/>
+        <result column="user_id" property="user_id"/>
+        <result column="reason" property="reason"/>
+        <result column="status" property="status"/>
+    </resultMap>
+
+    <!--查询所有举报-->
+    <select id="findAll" resultMap="reportResult">
+        select * from report
+    </select>
+
+    <!--添加举报-->
+    <insert id="addReport" parameterType="Report">
+        insert into report (type,target_id,user_id,reason,status) values (#{type},#{target_id},#{user_id},#{reason},#{status})
+    </insert>
+
+    <!--更改举报处理状态-->
+    <update id="changeReport" parameterType="int">
+        update report SET status = 1 where id = #{id};
+    </update>
+
+    <!--根据举报id获取用户id-->
+    <select id="getDiscussionidByReportid"  parameterType="int" resultMap="reportResult">
+        select * from report where id = #{0}
+    </select>
+
+</mapper>

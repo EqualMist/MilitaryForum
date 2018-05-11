@@ -1,0 +1,167 @@
+/*
+    帖子主题区域样式
+ */
+.discussion-background {
+    background: #ebebeb;
+    border-radius: 10px;
+    border: 1px solid #f2dede;
+    width: 100%;
+    margin-top: 10px;
+
+}
+
+.discussion-left {
+    font-family: "Microsoft YaHei";
+    width: 160px;
+}
+
+.discussion-right {
+    width: 588px;
+    background: #ffffff;
+}
+
+.discussion-right-top {
+    background:#f2dede;
+    margin-top: 0px;
+    height: 60px;
+    font-family: "Microsoft YaHei";
+    font-size: 26px;
+}
+
+.discussion-right-top-title {
+    padding-top: 10px;
+    margin-left: 25px;
+    width: 247px;
+    height: 50px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.discussion-right-top-btn-collect {
+    padding-top: 10px;
+    margin-right: 20px;
+}
+.discussion-right-top-btn-follow {
+    padding-top: 10px;
+    margin-right: 20px;
+}
+
+.discussion-right-mid {
+    font-family: "Microsoft YaHei";
+    font-size: 16px;
+}
+
+.discussion-right-mid-body {
+    padding-top: 10px;
+    min-height: 100px;
+}
+
+.discussion-right-buttom {
+    font-family: "Microsoft YaHei";
+    color: #999999;
+}
+
+.discussion-right-buttom-num {
+    margin-right: 10px;
+}
+
+.discussion-right-buttom-reply {
+    margin-right: 10px;
+}
+
+.discussion-right-buttom-time {
+    margin-right: 10px;
+}
+
+.discussion-avatar {
+    margin: 30px auto;
+    width: 100px;
+    height: 100px;
+}
+
+/**
+    回复区域样式
+ */
+
+.reply-background {
+    background: #ebebeb;
+    border-radius: 10px;
+    border: 1px solid #f2dede;
+    width: 100%;
+    margin-top: 10px;
+
+}
+
+.reply-left {
+    font-family: "Microsoft YaHei";
+    width: 160px;
+}
+
+.reply-right {
+    width: 588px;
+    background: #ffffff;
+}
+
+.reply-right-top {
+    background:#f2dede;
+    margin-top: 0px;
+    height: 60px;
+    font-family: "Microsoft YaHei";
+    font-size: 26px;
+}
+
+.reply-right-top-title {
+    padding-top: 10px;
+    margin-left: 25px;
+}
+
+.reply-right-top-btn-collect {
+    padding-top: 10px;
+    margin-right: 20px;
+}
+.reply-right-top-btn-follow {
+    padding-top: 10px;
+    margin-right: 20px;
+}
+
+.reply-right-mid {
+    font-family: "Microsoft YaHei";
+    font-size: 16px;
+}
+
+.reply-right-mid-body {
+    padding-top: 10px;
+    min-height: 100px;
+}
+
+.reply-right-buttom {
+    font-family: "Microsoft YaHei";
+    color: #999999;
+}
+
+.reply-right-buttom-num {
+    margin-right: 10px;
+}
+
+.reply-right-buttom-reply {
+    margin-right: 10px;
+}
+
+.reply-right-buttom-time {
+    margin-right: 10px;
+}
+
+.reply-avatar {
+    margin: 30px auto;
+    width: 100px;
+    height: 100px;
+}
+
+/**
+    回复评论区域
+ */
+
+.reply-form {
+    margin-top: 30px;
+}

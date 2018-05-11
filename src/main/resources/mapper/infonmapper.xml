@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.zzy.forum.dao.InfoDao">
+
+    <resultMap type="Info" id="infoResult">
+        <id column="id" property="id"/>
+        <result column="title" property="title"/>
+        <result column="label" property="label"/>
+        <result column="content" property="content"/>
+        <result column="link" property="link"/>
+
+    </resultMap>
+
+    <!--根据输入内容查询信息-->
+    <select id="searchInfo" parameterType="java.lang.String" resultMap="infoResult">
+        select * from militaryinfo where title like CONCAT('%',#{0},'%')
+    </select>
+</mapper>

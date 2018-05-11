@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.zzy.forum.dao.MyCollectionDao">
+
+    <resultMap type="MyCollection" id="mycollectionResult">
+        <id column="id" property="id"/>
+        <result column="discussion_id" property="discussion_id"/>
+        <result column="user_id" property="user_id"/>
+    </resultMap>
+
+    <!--查询所有收藏-->
+    <select id="findAll" parameterType="int" resultMap="mycollectionResult">
+        select * from mycollection where `user_id` = #{0}
+    </select>
+
+    <!--查询改收藏-->
+    <select id="findCollection" parameterType="int" resultMap="mycollectionResult">
+        select * from mycollection where `user_id` = #{0} and `discussion_id` = #{1}
+    </select>
+
+    <!--查询该帖子的所有收藏用户-->
+    <select id="findCollectionUsers" parameterType="int" resultMap="mycollectionResult">
+        select * from mycollection where `discussion_id` = #{0}
+    </select>
+
+    <!--添加收藏-->
+    <insert id="addCollection" parameterType="MyCollection">
+        insert into mycollection (discussion_id, user_id) values (#{discussion_id},#{user_id})
+    </insert>
+
+    <!--取消收藏-->
+    <delete id="cancelCollection" parameterType="MyCollection">
+        delete from mycollection  where user_id = #{user_id} and discussion_id = #{discussion_id};
+    </delete>
+</mapper>

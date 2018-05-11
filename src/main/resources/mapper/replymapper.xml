@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.zzy.forum.dao.ReplyDao">
+
+    <resultMap type="Reply" id="replyResult">
+        <id column="id" property="id"/>
+        <result column="dicussion_id" property="dicussion_id"/>
+        <result column="replybody" property="replybody"/>
+        <result column="replytime" property="replytime"/>
+        <result column="reply_user_id" property="reply_user_id"/>
+        <result column="reply_username" property="reply_username"/>
+        <result column="avatar" property="avatar"/>
+        <result column="thumb_num" property="thumb_num"/>
+        <result column="renown" property="renown"/>
+        <result column="blacklist" property="blacklist"/>
+    </resultMap>
+
+    <!--查询所有帖子回复-->
+    <select id="showAllReplies" parameterType="int" resultMap="replyResult">
+        select distinct reply.*,`user`.renown,`user`.avatar from reply,user,discussion where reply.discussion_id=#{discussion_id} and reply.reply_user_id = `user`.id and reply.blacklist=0 ORDER BY replytime ASC
+    </select>
+
+    <!--根据帖子id查找回复-->
+    <select id="show" parameterType="int" resultMap="replyResult">
+        select * from reply where id = #{0} and reply.blacklist=0
+    </select>
+
+    <!--发布回帖-->
+    <insert id="addReply" parameterType="Reply">
+        insert into reply (discussion_id,replybody,replytime,reply_user_id,reply_username,thumb_num,blacklist) values (#{discussion_id},#{replybody},#{replytime},#{reply_user_id},#{reply_username},#{thumb_num},#{blacklist})
+    </insert>
+
+    <!--根据回复id获取用户id-->
+    <select id="getUseridByReplyid" parameterType="int" resultMap="replyResult">
+        select * from reply where id = #{0}
+    </select>
+
+    <!--更改被举报回复blacklist字段-->
+    <update id="changeReplyStatus" parameterType="int">
+        update reply SET reply.blacklist = 1 where reply.id = #{id};
+    </update>
+
+    <!--根据id查找帖子回复-->
+    <select id="showReport" parameterType="int" resultMap="replyResult">
+        select * from reply where id = #{0}
+    </select>
+
+    <!--增加对应回帖点赞数1-->
+    <update id="addReplyThumbnum" parameterType="int">
+        update reply SET reply.thumb_num = reply.thumb_num+1 where reply.id = #{0};
+    </update>
+
+    <!--增加对应回帖点赞数1-->
+    <update id="deleteReplyThumbnum" parameterType="int">
+        update reply SET reply.thumb_num = reply.thumb_num-1 where reply.id = #{0};
+    </update>
+
+    <!--根据发帖人id获取回帖数-->
+    <select id="getCountReply" parameterType="int" resultType="java.lang.Integer">
+        select count(*) from reply where reply.reply_user_id = #{0}
+    </select>
+</mapper>

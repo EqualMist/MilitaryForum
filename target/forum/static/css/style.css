@@ -16,3 +16,12 @@
 .text_align_center{
     text-align: center;
 }
+
+/* 警告框位置 */
+.master-alert{
+    position: fixed;
+    bottom: 10%;
+    left: 0;
+    width: 100%;
+    z-index: 50;
+}
